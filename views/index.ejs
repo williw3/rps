@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RPS</title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script>
+        $(document).ready(function (){
+        
+            var socket = io.connect();
+            $('#player').submit(function(e){
+                var person = $('input:first').val();
+                e.preventDefault();
+                socket.emit('person_added', {player: person});
+            })
+
+
+            socket.on('server_response', function(data){
+                $('#chat').append("<h5>Player:" + data.response + "</h5>");
+                console.log('The server says: ' + data);
+            });
+        })
+    </script> -->
+</head>
+<body>
+    <!-- <h1>Rock Paper Scissors Thunderdome</h1>
+    <form id="player" action="">
+        <label for="name">Enter Player Name:</label>
+        <input type="text" name="name">
+        <input type="submit" value="Join Chat">
+    </form>
+    <div style="border: 1px solid black;" id="chat">
+        <h4>Group Chat:</h4>
+
+    </div> -->
+    <script>
+        $(function(){
+            var socket = io.connect();
+            var $messageForm = $('messageForm');
+            var $message = $('message');
+            var $chat = $('chat');
+
+            $messageForm.submit(function(e){
+                e.preventDefault();
+                socket.emit('send message', $message.val());
+                $message.val('');
+            });
+            socket.on('new message', function(data){
+                $chat.append('div class="well">' +data.msg+'</div>');
+            });
+        })
+    </script>
+</body>
+</html>
